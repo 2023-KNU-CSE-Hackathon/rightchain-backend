@@ -1,10 +1,11 @@
-package com.principes.rightchain.oauth.kakao.controller;
+package com.principes.rightchain.oauth.naver.controller;
 
 import com.principes.rightchain.account.service.AccountService;
 import com.principes.rightchain.auth.dto.TokenDto;
 import com.principes.rightchain.auth.dto.request.RegisterRequestDto;
 import com.principes.rightchain.auth.dto.response.LoginResponseDto;
 import com.principes.rightchain.oauth.kakao.service.KakaoService;
+import com.principes.rightchain.oauth.naver.service.NaverService;
 import com.principes.rightchain.oauth.oauth2.service.OAuthService;
 import com.principes.rightchain.utils.api.ApiUtil;
 import com.principes.rightchain.utils.api.ApiUtil.ApiSuccessResult;
@@ -18,20 +19,20 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping("/api/v1/oauth/kakao")
+@RequestMapping("/api/v1/oauth/naver")
 @RequiredArgsConstructor
-public class KakaoController {
+public class NaverController {
     private final CookieUtil cookieUtil;
-    private final KakaoService kakaoService;
+    private final NaverService naverService;
     private final OAuthService oAuthService;
     private final AccountService accountService;
 
     @PostMapping("/login")
-    public ApiSuccessResult<?> kakaoLogin(
+    public ApiSuccessResult<?> naverLogin(
             @RequestParam("code") String authCode,
             HttpServletResponse res) throws RuntimeException {
 
-        String email = kakaoService.getKakaoEmail(authCode);
+        String email = naverService.getNaverEmail(authCode);
 
         if (accountService.isAccountByEmail(email)) {
             res.setStatus(401);
@@ -52,7 +53,7 @@ public class KakaoController {
     }
 
     @PostMapping("/register")
-    public ApiSuccessResult<Long> kakaoRegister(@RequestBody RegisterRequestDto requestDto){
+    public ApiSuccessResult<Long> naverRegister(@RequestBody RegisterRequestDto requestDto){
         return ApiUtil.success(oAuthService.oRegister(requestDto));
     }
 

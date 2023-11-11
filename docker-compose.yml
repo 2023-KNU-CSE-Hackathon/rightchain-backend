@@ -8,8 +8,10 @@ services:
     container_name: rightchain-backend
     depends_on:
       - db
+      - cache
     links:
       - db:app_db
+      - cache:app_cache
     ports:
       - "50001:8080"
     restart: always
@@ -26,5 +28,14 @@ services:
     volumes:
       - rightchain-mysql:/var/lib/mysql
 
+  cache:
+    image: redis:6.2-alpine
+    container_name: rightchain-cache
+    restart: always
+    command: redis-server --save 20 1 --loglevel warning
+    volumes:
+      - rightchain-cache:/data
+
 volumes:
   rightchain-mysql:
+  rightchain-cache:
