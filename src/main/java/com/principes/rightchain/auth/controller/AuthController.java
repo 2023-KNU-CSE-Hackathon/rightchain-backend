@@ -18,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -27,13 +28,13 @@ public class AuthController {
     private final CookieUtil cookieUtil;
 
     @PostMapping("/register")
-    public ApiSuccessResult<Long> signUp(@RequestBody RegisterRequestDto requestDto){
+    public ApiSuccessResult<Long> signUp(@Valid @RequestBody RegisterRequestDto requestDto){
         return ApiUtil.success(authService.register(requestDto));
     }
 
     @PostMapping("/login")
     public ApiSuccessResult<ResponseEntity<LoginResponseDto>> login(
-            @RequestBody LoginRequestDto loginRequestDto,
+            @Valid @RequestBody LoginRequestDto loginRequestDto,
             HttpServletResponse res
     ){
         String email = loginRequestDto.getEmail();
