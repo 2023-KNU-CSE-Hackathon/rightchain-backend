@@ -35,6 +35,9 @@ public class KakaoService {
     @Value("${spring.oauth.kakao.user-info-uri}")
     private String userInfoUri;
 
+    @Value("${spring.oauth.kakao.client-secret}")
+    private String clientSecret;
+
     public String getKakaoEmail(String authCode) {
         String accessToken = getKakaoAccessToken(authCode);
         log.info("access Token : " + accessToken);
@@ -58,6 +61,7 @@ public class KakaoService {
         requestBody.add("grant_type", "authorization_code");
         requestBody.add("client_id", restApiKey);
         requestBody.add("redirect_uri", redirectUri);
+        requestBody.add("client_secret", clientSecret);
         requestBody.add("code", authCode);
 
         HttpHeaders headers = new HttpHeaders();

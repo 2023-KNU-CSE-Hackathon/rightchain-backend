@@ -29,17 +29,19 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    private String name;
     private String schoolName;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Report> reports = new ArrayList<>();
 
     @Builder
-    public Account(Long id, String email, String password, Role role, String schoolName, List<Report> reports) {
+    public Account(Long id, String email, String password, Role role, String name, String schoolName, List<Report> reports) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.name = name;
         this.schoolName = schoolName;
         this.reports = reports;
     }

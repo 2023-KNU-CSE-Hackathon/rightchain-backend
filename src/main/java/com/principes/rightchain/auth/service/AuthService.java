@@ -3,7 +3,6 @@ package com.principes.rightchain.auth.service;
 import com.principes.rightchain.account.entity.Account;
 import com.principes.rightchain.account.entity.Role;
 import com.principes.rightchain.account.repository.AccountRepository;
-import com.principes.rightchain.account.service.AccountService;
 import com.principes.rightchain.auth.dto.TokenDto;
 import com.principes.rightchain.auth.dto.request.RegisterRequestDto;
 import com.principes.rightchain.auth.dto.response.LoginResponseDto;
@@ -39,11 +38,7 @@ public class AuthService {
         Account account = accountRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("계정이 존재하지 않습니다."));
 
-        return LoginResponseDto.builder()
-                .tokenDto(tokenDto)
-                .email(account.getEmail())
-                .role(account.getRole())
-                .build();
+        return new LoginResponseDto(account, tokenDto);
     }
 
     @Transactional
