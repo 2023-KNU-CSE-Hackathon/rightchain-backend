@@ -1,6 +1,7 @@
 package com.principes.rightchain.auth.service;
 
 import com.principes.rightchain.account.entity.Account;
+import com.principes.rightchain.account.entity.Role;
 import com.principes.rightchain.account.repository.AccountRepository;
 import com.principes.rightchain.auth.dto.TokenDto;
 import com.principes.rightchain.auth.dto.request.RegisterRequestDto;
@@ -49,7 +50,15 @@ public class AuthService {
         if(accountRepository.existsByEmail(requestDto.getEmail())){
             throw new IllegalStateException("중복된 이메일 입니다.");
         }
-        Account account = accountRepository.save(requestDto.toEntity(passwordEncoder));
+
+        Role role = switch (requestDto.getRole()) {
+            case "USER" -> Role.ROLE_USER;
+            case "TEACHER" -> Role.ROLE_TEACHER;
+            case "COMMITTEE" -> Role.ROLE_COMMITTEE;
+            default -> throw new IllegalStateException("알 수 없는 역할 입니다.");
+        };
+
+        Account account = accountRepository.save(requestDto.toEntity(passwordEncoder, role));
         return account.getId();
     }
 }

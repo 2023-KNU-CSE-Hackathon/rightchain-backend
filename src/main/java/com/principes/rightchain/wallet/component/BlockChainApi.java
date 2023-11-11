@@ -1,6 +1,7 @@
 package com.principes.rightchain.wallet.component;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -12,10 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class BlockChainApi {
-    private final RestTemplate restTemplate;
 
     @Value("${spring.chain.api-token}")
     private String API_TOKEN;
@@ -42,7 +43,7 @@ public class BlockChainApi {
      * @return 지갑 address 주소
      */
     public String createWallet(String wallet_name) {
-        final String URI = "https://testnet-api.blocksdk.com/v3/matic/address/?api_token=" + API_TOKEN;
+        final String URI = "https://testnet-api.blocksdk.com/v3/matic/address?api_token=" + API_TOKEN;
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
         requestBody.add("name", wallet_name);
 
@@ -51,6 +52,7 @@ public class BlockChainApi {
 
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
 
+        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Map> response = restTemplate.exchange(
                 URI,
                 HttpMethod.POST,
@@ -66,6 +68,9 @@ public class BlockChainApi {
 
         return (String) payload.get("address");
     }
+
+
+
 
     /**
      *
@@ -117,6 +122,7 @@ public class BlockChainApi {
 
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(headers);
 
+        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Map> response = restTemplate.exchange(
                 URI,
                 HttpMethod.GET,

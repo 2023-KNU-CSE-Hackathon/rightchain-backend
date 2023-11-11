@@ -52,10 +52,11 @@ public class AuthController {
                 .header(HttpHeaders.AUTHORIZATION, authorization)
                 .body(loginResponseDto));
     }
-    @GetMapping("/test")
-    public ApiSuccessResult<Account> testC(Authentication authentication) {
-        PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
 
-        return ApiUtil.success(userDetails.account());
+    @GetMapping("/test")
+    public ApiSuccessResult<Long> testC(Authentication authentication) {
+        Account account = ((PrincipalDetails) authentication.getPrincipal()).getAccount();
+
+        return ApiUtil.success(account.getId());
     }
 }

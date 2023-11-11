@@ -9,12 +9,14 @@ import com.principes.rightchain.report.entity.Report;
 import com.principes.rightchain.report.repository.ReportRepository;
 import com.principes.rightchain.utils.wallet.WalletUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

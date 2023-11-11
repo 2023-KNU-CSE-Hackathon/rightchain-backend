@@ -20,16 +20,16 @@ public class RegisterRequestDto {
     @NotNull
     private String password;
     @NotNull
-    private Role role;
+    private String role;
     @NotNull
     private String schoolName;
 
-    public Account toEntity(PasswordEncoder passwordEncoder){
+    public Account toEntity(PasswordEncoder passwordEncoder, Role role_){
         return Account.builder()
                 .email(this.email)
                 .password(passwordEncoder.encode(this.password))
                 .schoolName(this.schoolName)
-                .role(this.role)
+                .role(role_)
                 .build();
     }
 }
