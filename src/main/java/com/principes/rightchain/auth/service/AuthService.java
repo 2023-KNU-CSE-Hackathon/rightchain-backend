@@ -3,6 +3,7 @@ package com.principes.rightchain.auth.service;
 import com.principes.rightchain.account.entity.Account;
 import com.principes.rightchain.account.entity.Role;
 import com.principes.rightchain.account.repository.AccountRepository;
+import com.principes.rightchain.account.service.AccountService;
 import com.principes.rightchain.auth.dto.TokenDto;
 import com.principes.rightchain.auth.dto.request.RegisterRequestDto;
 import com.principes.rightchain.auth.dto.response.LoginResponseDto;

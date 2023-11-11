@@ -1,4 +1,4 @@
-package com.principes.rightchain.auth.dto.request;
+package com.principes.rightchain.oauth.oauth2.dto.request;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -7,7 +7,6 @@ import com.principes.rightchain.account.entity.Role;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.NotNull;
@@ -18,7 +17,7 @@ import javax.validation.constraints.NotNull;
 public class RegisterRequestDto {
     @NotNull
     private String email;
-    @NotNull @Setter
+    @NotNull
     private String password;
     @NotNull
     private String role;
