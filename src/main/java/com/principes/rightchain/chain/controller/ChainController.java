@@ -1,8 +1,8 @@
 package com.principes.rightchain.chain.controller;
 
 import com.principes.rightchain.chain.service.ChainService;
-import com.principes.rightchain.utils.api.ApiUtil.*;
 import com.principes.rightchain.utils.api.ApiUtil;
+import com.principes.rightchain.utils.api.ApiUtil.ApiSuccessResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,16 +12,15 @@ import org.springframework.web.bind.annotation.*;
 public class ChainController {
     private final ChainService chainService;
 
-    @PostMapping("/{caseNum}")
+    @PostMapping("/{caseNum}/{walletName}")
     public ApiSuccessResult<String> stackChain(
             @PathVariable("caseNum") String caseNum,
-            @RequestParam("wallet-name") String walletName
+            @PathVariable("walletName") String walletName
     ) {
         chainService.stackChain(caseNum, walletName);
 
         return ApiUtil.success("성공적으로 저장되었습니다.");
     }
-
 
     @PostMapping("/{caseNum}")
     public ApiSuccessResult<String> changeProgressStatus(
@@ -31,7 +30,4 @@ public class ChainController {
 
         return ApiUtil.success("성공적으로 저장되었습니다.");
     }
-
-
-
 }

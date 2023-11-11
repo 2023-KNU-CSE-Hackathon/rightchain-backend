@@ -7,18 +7,18 @@ import com.principes.rightchain.auth.dto.request.RegisterRequestDto;
 import com.principes.rightchain.auth.dto.response.LoginResponseDto;
 import com.principes.rightchain.auth.service.AuthService;
 import com.principes.rightchain.security.details.PrincipalDetails;
-import com.principes.rightchain.security.provider.JwtTokenProvider;
-import com.principes.rightchain.utils.api.ApiUtil.*;
 import com.principes.rightchain.utils.api.ApiUtil;
+import com.principes.rightchain.utils.api.ApiUtil.ApiSuccessResult;
 import com.principes.rightchain.utils.cookie.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -28,13 +28,13 @@ public class AuthController {
     private final CookieUtil cookieUtil;
 
     @PostMapping("/register")
-    public ApiSuccessResult<Long> signUp(@RequestBody RegisterRequestDto requestDto){
+    public ApiSuccessResult<Long> signUp(@Valid @RequestBody RegisterRequestDto requestDto){
         return ApiUtil.success(authService.register(requestDto));
     }
 
     @PostMapping("/login")
     public ApiSuccessResult<ResponseEntity<LoginResponseDto>> login(
-            @RequestBody LoginRequestDto loginRequestDto,
+            @Valid @RequestBody LoginRequestDto loginRequestDto,
             HttpServletResponse res
     ){
         String email = loginRequestDto.getEmail();
@@ -52,10 +52,11 @@ public class AuthController {
                 .header(HttpHeaders.AUTHORIZATION, authorization)
                 .body(loginResponseDto));
     }
-    @GetMapping("/test")
-    public ApiSuccessResult<Account> testC(Authentication authentication) {
-        PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
 
-        return ApiUtil.success(userDetails.account());
+    @GetMapping("/test")
+    public ApiSuccessResult<Long> testC(Authentication authentication) {
+        Account account = ((PrincipalDetails) authentication.getPrincipal()).getAccount();
+
+        return ApiUtil.success(account.getId());
     }
 }
