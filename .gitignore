@@ -68,7 +68,6 @@ Temporary Items
 # iCloud generated files
 *.icloud
 
-agree/
 chain/
 config/
 exception/
