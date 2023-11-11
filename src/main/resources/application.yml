@@ -17,6 +17,14 @@ spring:
   chain:
     api-token: d17TEKsti3aNZKH88NxjrcQqtl4z9E1TZxEtNMLn
 
+  oauth:
+    password: oKd7SVhTuW2HCfdppcLczrqz6enn7cbeadfrxGRGYcfCd8RaN9
+    kakao:
+      token-uri: https://kauth.kakao.com/oauth/token
+      rest-api-key: 127265cef17dc44834bc915935e7f20d
+      redirect-uri: http://localhost:3000/auth/kakaoLogin
+      user-info-uri: https://kapi.kakao.com/v2/user/me
+
 server:
   servlet:
     encoding:
