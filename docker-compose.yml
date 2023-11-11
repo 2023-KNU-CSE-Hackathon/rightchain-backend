@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rightchain-backend
+    depends_on:
+      - db
+    links:
+      - db:app_db
+    ports:
+      - "50001:8080"
+    restart: always
+
+  db:
+    image: mysql/mysql-server:8.0
+    container_name: rightchain-mysql
+    environment:
+      MYSQL_DATABASE: b5joz44TkRE4rXhUhCo3_db
+      MYSQL_USER: UJ2Hk8KEBa7RgQ2QP7jo_user
+      MYSQL_PASSWORD: hh558RTwH4UuTkRuMUR8aUgkq7ZsP8
+      TZ: 'Asia/Seoul'
+    restart: always
+    volumes:
+      - rightchain-mysql:/var/lib/mysql
+
+volumes:
+  rightchain-mysql:
