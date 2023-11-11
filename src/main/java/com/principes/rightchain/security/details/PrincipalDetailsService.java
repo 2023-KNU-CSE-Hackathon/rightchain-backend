@@ -3,7 +3,6 @@ package com.principes.rightchain.security.details;
 import com.principes.rightchain.account.entity.Account;
 import com.principes.rightchain.account.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

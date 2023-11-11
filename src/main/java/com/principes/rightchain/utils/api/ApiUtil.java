@@ -1,5 +1,7 @@
 package com.principes.rightchain.utils.api;
 
+import lombok.Getter;
+
 public class ApiUtil {
 
     public static <T> ApiSuccessResult<T> success(T response) {
@@ -10,6 +12,7 @@ public class ApiUtil {
         return new ApiErrorResult<>(code, message);
     }
 
+    @Getter
     public static class ApiSuccessResult<T> {
         private final T response;
 
@@ -17,9 +20,6 @@ public class ApiUtil {
             this.response = response;
         }
 
-        public T getResponse() {
-            return response;
-        }
     }
 
     public static class ApiErrorResult<T> {
@@ -35,9 +35,6 @@ public class ApiUtil {
             return statusCode;
         }
 
-        public T getMessage() {
-            return message;
-        }
     }
 
 }

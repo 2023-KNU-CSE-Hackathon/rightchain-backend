@@ -39,9 +39,10 @@ public class SecurityConfig {
 
         httpSecurity
                 .authorizeRequests()
-                    .antMatchers("/api/v1/report/**").hasAnyRole("USER", "TEACHER", "COMMITTEE")
-                    .antMatchers("/api/v1/chain/**").hasAnyRole("USER", "TEACHER", "COMMITTEE")
-                    .antMatchers("/api/v1/agree/**").hasAnyRole("USER", "TEACHER", "COMMITTEE")
+                    .antMatchers("/api/v1/reports/**").hasAnyRole("USER", "TEACHER", "COMMITTEE")
+                    .antMatchers("/api/v1/chains/**").hasAnyRole("USER", "TEACHER", "COMMITTEE")
+                    .antMatchers("/api/v1/agrees/**").hasAnyRole("USER", "TEACHER", "COMMITTEE")
+                    .antMatchers("/api/v1/wallets/**").hasAnyRole("USER", "TEACHER", "COMMITTEE")
                     .antMatchers("/api/v1/auth/**", "/swagger-ui/**").permitAll();
 
         httpSecurity

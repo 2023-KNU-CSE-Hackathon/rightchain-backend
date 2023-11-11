@@ -1,6 +1,5 @@
 package com.principes.rightchain.account.entity;
 
-import com.principes.rightchain.agree.entity.Agree;
 import com.principes.rightchain.report.entity.Report;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -30,25 +29,17 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Enumerated(EnumType.STRING)
-    private Sex sex;
-
-    private int age;
-    private String phoneNum;
     private String schoolName;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Report> reports = new ArrayList<>();
 
     @Builder
-    public Account(Long id, String email, String password, Role role, int age, Sex sex, String phoneNum, String schoolName, List<Report> reports) {
+    public Account(Long id, String email, String password, Role role, String schoolName, List<Report> reports) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.role = role;
-        this.age = age;
-        this.sex = sex;
-        this.phoneNum = phoneNum;
         this.schoolName = schoolName;
         this.reports = reports;
     }

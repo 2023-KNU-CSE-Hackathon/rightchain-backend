@@ -7,16 +7,15 @@ import com.principes.rightchain.auth.dto.request.RegisterRequestDto;
 import com.principes.rightchain.auth.dto.response.LoginResponseDto;
 import com.principes.rightchain.auth.service.AuthService;
 import com.principes.rightchain.security.details.PrincipalDetails;
-import com.principes.rightchain.security.provider.JwtTokenProvider;
-import com.principes.rightchain.utils.api.ApiUtil.*;
 import com.principes.rightchain.utils.api.ApiUtil;
+import com.principes.rightchain.utils.api.ApiUtil.ApiSuccessResult;
 import com.principes.rightchain.utils.cookie.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 

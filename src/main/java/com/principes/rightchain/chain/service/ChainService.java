@@ -1,11 +1,12 @@
 package com.principes.rightchain.chain.service;
 
-import com.principes.rightchain.chain.component.BlockChainApi;
 import com.principes.rightchain.chain.entity.Chain;
 import com.principes.rightchain.chain.entity.ProgressStatus;
 import com.principes.rightchain.chain.repository.ChainRepository;
+import com.principes.rightchain.exception.NotFoundException;
 import com.principes.rightchain.report.entity.Report;
-import com.principes.rightchain.report.service.ReportService;
+import com.principes.rightchain.report.repository.ReportRepository;
+import com.principes.rightchain.wallet.component.BlockChainApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ChainService {
     private final ChainRepository chainRepository;
-    private final ReportService reportService;
+    private final ReportRepository reportRepository;
     private final BlockChainApi blockChainApi;
 
     @Transactional
@@ -32,7 +33,7 @@ public class ChainService {
 
     @Transactional
     public void stackChain(String caseNum, String walletName) {
-        Report report = reportService.findReportByCaseNum(caseNum);
+        Report report = this.findReportByCaseNum(caseNum);
 
         ProgressStatus currentProgressStatus = chainRepository.findProgressStatusByCaseId(report.getId());
 
@@ -47,7 +48,7 @@ public class ChainService {
 
     @Transactional
     public void updateProgressStatus(String caseNum) {
-        Report report = reportService.findReportByCaseNum(caseNum);
+        Report report = this.findReportByCaseNum(caseNum);
 
         ProgressStatus currentProgressStatus = chainRepository.findProgressStatusByCaseId(report.getId());
 
@@ -68,4 +69,14 @@ public class ChainService {
                         .build());
 
     }
+
+    private Report findReportByCaseNum(String caseNum) {
+        return reportRepository.findById(getIdFromCaseNum(caseNum))
+                .orElseThrow(() -> new NotFoundException("해당 사건 번호로 사건을 조회할 수 없습니다."));
+    }
+
+    private Long getIdFromCaseNum(String caseNum) {
+        return Long.parseLong(caseNum) % 10000;
+    }
+
 }
