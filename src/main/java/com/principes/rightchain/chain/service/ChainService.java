@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @Transactional(readOnly = true)
@@ -37,7 +39,8 @@ public class ChainService {
     public void stackChain(String caseNum, String walletName) {
         Report report = this.findReportByCaseNum(caseNum);
 
-        ProgressStatus currentProgressStatus = chainRepository.findProgressStatusByCaseId(report.getId());
+//        ProgressStatus currentProgressStatus = chainRepository.findProgressStatusByCaseId(report.getId());
+        ProgressStatus currentProgressStatus = getCurrentProgress(report);
 
         String address = blockChainApi.createWallet(walletName);
         chainRepository.save(
@@ -52,7 +55,8 @@ public class ChainService {
     public void updateProgressStatus(String caseNum) {
         Report report = this.findReportByCaseNum(caseNum);
 
-        ProgressStatus currentProgressStatus = chainRepository.findProgressStatusByCaseId(report.getId());
+//        ProgressStatus currentProgressStatus = chainRepository.findProgressStatusByCaseId(report.getId());
+        ProgressStatus currentProgressStatus = getCurrentProgress(report);
 
         if (currentProgressStatus.ordinal() >= ProgressStatus.values().length) {
             throw new RuntimeException("마지막 PrgressStatus에서 업데이트를 시도했습니다.");
@@ -81,4 +85,12 @@ public class ChainService {
         return Long.parseLong(caseNum) % 10000;
     }
 
+    private ProgressStatus getCurrentProgress(Report report) {
+        List<Chain> chains = findAllByReport(report);
+        return chains.get(chains.size()-1).getProgressStatus();
+    }
+
+    public List<Chain> findAllByReport(Report report) {
+        return chainRepository.findAllByReport(report);
+    }
 }

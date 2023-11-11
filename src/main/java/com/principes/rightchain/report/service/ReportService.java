@@ -1,6 +1,7 @@
 package com.principes.rightchain.report.service;
 
 import com.principes.rightchain.account.entity.Account;
+import com.principes.rightchain.chain.entity.Chain;
 import com.principes.rightchain.chain.service.ChainService;
 import com.principes.rightchain.exception.NotFoundException;
 import com.principes.rightchain.report.dto.request.ReportCreateRequest;
@@ -37,8 +38,9 @@ public class ReportService {
 
     public ReportReadResponse readReport(String caseNum) {
         Report report = this.findReportByCaseNum(caseNum);
+        List<Chain> chains = chainService.findAllByReport(report);
 
-        return new ReportReadResponse(report);
+        return new ReportReadResponse(report, chains);
     }
 
     public List<ReportReadResponse> readAllReport() {
@@ -46,7 +48,9 @@ public class ReportService {
         List<ReportReadResponse> reportReadResponses = new ArrayList<>();
 
         for (Report report : reports) {
-            reportReadResponses.add(new ReportReadResponse(report));
+            List<Chain> chains = chainService.findAllByReport(report);
+
+            reportReadResponses.add(new ReportReadResponse(report, chains));
         }
 
         return  reportReadResponses;

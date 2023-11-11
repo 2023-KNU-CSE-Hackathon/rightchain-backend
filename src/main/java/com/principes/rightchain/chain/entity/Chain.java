@@ -1,6 +1,5 @@
 package com.principes.rightchain.chain.entity;
 
-import com.principes.rightchain.account.entity.Account;
 import com.principes.rightchain.report.entity.Report;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -21,7 +20,7 @@ public class Chain {
     private ProgressStatus progressStatus;
     private String address;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Account.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Report.class)
     @JoinColumn(name = "report_id")
     private Report report; // 사건 번호
 
