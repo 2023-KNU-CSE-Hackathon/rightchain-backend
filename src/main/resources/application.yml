@@ -1,0 +1,33 @@
+spring:
+  jpa:
+    show-sql: false
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://app_db:3306/b5joz44TkRE4rXhUhCo3_db
+    username: UJ2Hk8KEBa7RgQ2QP7jo_user
+    password: hh558RTwH4UuTkRuMUR8aUgkq7ZsP8
+
+  jwt:
+    secret: VY8bBm7p93fC2SZJ6bZBeJHQZKvHfHTVJhdXjC9TGg8KLYooLXL4SvHcGfAf
+
+  chain:
+    api-token: d17TEKsti3aNZKH88NxjrcQqtl4z9E1TZxEtNMLn
+
+server:
+  servlet:
+    encoding:
+      charset: utf-8
+
+logging:
+  level:
+    org:
+    hibernate:
+      SQL: DEBUG
+    type:
+      descriptor:
+        sql:
+          BasicBinder: TRACE # Hibernate 5.2 이상 버전에서 사용 가능합니다.
