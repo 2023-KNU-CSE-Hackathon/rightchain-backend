@@ -69,10 +69,7 @@ Temporary Items
 *.icloud
 
 agree/
-auth/
 chain/
 config/
 exception/
 report/
-security/
-utils/
