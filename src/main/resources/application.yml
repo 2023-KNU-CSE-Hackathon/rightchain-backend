@@ -11,11 +11,30 @@ spring:
     username: UJ2Hk8KEBa7RgQ2QP7jo_user
     password: hh558RTwH4UuTkRuMUR8aUgkq7ZsP8
 
+  redis:
+    host: app_cache
+    port: 6379
+
   jwt:
     secret: VY8bBm7p93fC2SZJ6bZBeJHQZKvHfHTVJhdXjC9TGg8KLYooLXL4SvHcGfAf
 
   chain:
     api-token: d17TEKsti3aNZKH88NxjrcQqtl4z9E1TZxEtNMLn
+
+  mail:
+    protocol: smtp
+    host: smtp.gmail.com
+    port: 587
+    username: sjsb4838@gmail.com
+    password: aofx axhb hbgk qyzc
+    properties:
+      smtp.auth: true
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+    test-connection: true
 
   oauth:
     password: oKd7SVhTuW2HCfdppcLczrqz6enn7cbeadfrxGRGYcfCd8RaN9

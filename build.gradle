@@ -39,11 +39,17 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
+	// Redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
 	// Swagger
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.9'
 
 	// Validation
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// SMTP
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
 	implementation group: 'commons-io', name: 'commons-io', version: '2.7'
 
