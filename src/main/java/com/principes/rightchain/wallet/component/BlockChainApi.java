@@ -5,10 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -44,13 +44,13 @@ public class BlockChainApi {
      */
     public String createWallet(String wallet_name) {
         final String URI = "https://testnet-api.blocksdk.com/v3/matic/address?api_token=" + API_TOKEN;
-        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
-        requestBody.add("name", wallet_name);
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("name", wallet_name);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
+        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Map> response = restTemplate.exchange(
@@ -61,12 +61,13 @@ public class BlockChainApi {
         );
 
         if (response.getStatusCode() != HttpStatus.OK) {
-            throw new IllegalStateException();
+            log.info("오류 " + response);
         }
 
         Map payload = (Map) Objects.requireNonNull(response.getBody()).get("payload");
 
         return (String) payload.get("address");
+
     }
 
 
