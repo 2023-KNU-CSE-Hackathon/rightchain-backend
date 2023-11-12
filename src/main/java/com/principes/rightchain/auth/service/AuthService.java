@@ -1,5 +1,12 @@
 package com.principes.rightchain.auth.service;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.principes.rightchain.account.entity.Account;
 import com.principes.rightchain.account.entity.Role;
 import com.principes.rightchain.account.repository.AccountRepository;
@@ -8,13 +15,8 @@ import com.principes.rightchain.auth.dto.request.RegisterRequestDto;
 import com.principes.rightchain.auth.dto.response.LoginResponseDto;
 import com.principes.rightchain.exception.NotFoundException;
 import com.principes.rightchain.security.provider.JwtTokenProvider;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,9 +50,9 @@ public class AuthService {
         }
 
         Role role = switch (requestDto.getRole()) {
-            case "USER" -> Role.ROLE_USER;
-            case "TEACHER" -> Role.ROLE_TEACHER;
-            case "COMMITTEE" -> Role.ROLE_COMMITTEE;
+            case "학부모/학생" -> Role.ROLE_USER;
+            case "선생님" -> Role.ROLE_TEACHER;
+            case "위원회" -> Role.ROLE_COMMITTEE;
             default -> throw new IllegalStateException("알 수 없는 역할 입니다.");
         };
 

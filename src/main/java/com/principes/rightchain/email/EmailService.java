@@ -1,17 +1,20 @@
 package com.principes.rightchain.email;
 
-import com.principes.rightchain.utils.redis.RedisUtil;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Random;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Random;
+import com.principes.rightchain.utils.redis.RedisUtil;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
@@ -20,10 +23,12 @@ public class EmailService {
     private final JavaMailSender javaMailSender;
     private final RedisUtil redisUtil;
 
-    public Boolean validCode(String email, String code) {
+    public void validCode(String email, String code) {
         String getCode = (String) redisUtil.get(email);
 
-        return getCode.equals(code);
+        if (!getCode.equals(code)) {
+            throw new IllegalStateException("유효하지 않는 인증코드");
+        }
     }
     public void emailAuthorization(String email) {
         String code = createCode();
