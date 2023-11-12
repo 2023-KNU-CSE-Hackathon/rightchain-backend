@@ -59,4 +59,8 @@ public class AuthService {
         Account account = accountRepository.save(requestDto.toEntity(passwordEncoder, role));
         return account.getId();
     }
+
+    public boolean isAccountByEmail(String email) {
+        return accountRepository.existsByEmail(email);
+    }
 }

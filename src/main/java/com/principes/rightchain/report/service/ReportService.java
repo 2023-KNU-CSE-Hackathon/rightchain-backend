@@ -1,6 +1,14 @@
 package com.principes.rightchain.report.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.principes.rightchain.account.entity.Account;
+import com.principes.rightchain.agree.entity.Agree;
+import com.principes.rightchain.agree.repository.AgreeRepository;
 import com.principes.rightchain.chain.entity.Chain;
 import com.principes.rightchain.chain.service.ChainService;
 import com.principes.rightchain.exception.NotFoundException;
@@ -9,21 +17,16 @@ import com.principes.rightchain.report.dto.response.ReportReadResponse;
 import com.principes.rightchain.report.entity.Report;
 import com.principes.rightchain.report.repository.ReportRepository;
 import com.principes.rightchain.utils.wallet.WalletUtil;
+
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ReportService {
     private final ReportRepository reportRepository;
     private final ChainService chainService;
+    private final AgreeRepository agreeRepository;
     private final WalletUtil walletUtil;
 
     @Transactional
@@ -39,8 +42,9 @@ public class ReportService {
     public ReportReadResponse readReport(String caseNum) {
         Report report = this.findReportByCaseNum(caseNum);
         List<Chain> chains = chainService.findAllByReport(report);
+        List<Agree> agrees = agreeRepository.findAllByReport(report);
 
-        return new ReportReadResponse(report, chains);
+        return new ReportReadResponse(report, agrees, chains);
     }
 
     public List<ReportReadResponse> readAllReport() {
@@ -49,8 +53,9 @@ public class ReportService {
 
         for (Report report : reports) {
             List<Chain> chains = chainService.findAllByReport(report);
+            List<Agree> agrees = agreeRepository.findAllByReport(report);
 
-            reportReadResponses.add(new ReportReadResponse(report, chains));
+            reportReadResponses.add(new ReportReadResponse(report, agrees, chains));
         }
 
         return  reportReadResponses;
