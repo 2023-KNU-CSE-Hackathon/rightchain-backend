@@ -1,9 +1,5 @@
 package com.principes.rightchain.config;
 
-import com.principes.rightchain.account.repository.AccountRepository;
-import com.principes.rightchain.security.filter.JwtAuthenticationFilter;
-import com.principes.rightchain.security.provider.JwtTokenProvider;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,7 +12,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
-import static org.springframework.security.config.Customizer.withDefaults;
+import com.principes.rightchain.account.repository.AccountRepository;
+import com.principes.rightchain.security.filter.JwtAuthenticationFilter;
+import com.principes.rightchain.security.provider.JwtTokenProvider;
+
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
@@ -47,7 +47,7 @@ public class SecurityConfig {
 
         httpSecurity
                 .addFilterBefore(new JwtAuthenticationFilter(accountRepository, jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-                .httpBasic(withDefaults());
+                .httpBasic().disable();
 
         return httpSecurity.build();
     }
