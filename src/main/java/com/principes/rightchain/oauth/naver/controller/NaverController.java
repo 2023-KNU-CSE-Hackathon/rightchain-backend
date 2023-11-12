@@ -1,22 +1,27 @@
 package com.principes.rightchain.oauth.naver.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.principes.rightchain.account.service.AccountService;
 import com.principes.rightchain.auth.dto.TokenDto;
 import com.principes.rightchain.auth.dto.request.RegisterRequestDto;
 import com.principes.rightchain.auth.dto.response.LoginResponseDto;
-import com.principes.rightchain.oauth.kakao.service.KakaoService;
 import com.principes.rightchain.oauth.naver.service.NaverService;
 import com.principes.rightchain.oauth.oauth2.service.OAuthService;
 import com.principes.rightchain.utils.api.ApiUtil;
 import com.principes.rightchain.utils.api.ApiUtil.ApiSuccessResult;
 import com.principes.rightchain.utils.cookie.CookieUtil;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/oauth/naver")
@@ -34,7 +39,7 @@ public class NaverController {
 
         String email = naverService.getNaverEmail(authCode);
 
-        if (accountService.isAccountByEmail(email)) {
+        if (!accountService.isAccountByEmail(email)) {
             res.setStatus(401);
             return ApiUtil.success(email);
         }

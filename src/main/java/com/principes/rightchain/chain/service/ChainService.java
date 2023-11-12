@@ -1,5 +1,10 @@
 package com.principes.rightchain.chain.service;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.principes.rightchain.chain.entity.Chain;
 import com.principes.rightchain.chain.entity.ProgressStatus;
 import com.principes.rightchain.chain.repository.ChainRepository;
@@ -7,14 +12,9 @@ import com.principes.rightchain.exception.NotFoundException;
 import com.principes.rightchain.report.entity.Report;
 import com.principes.rightchain.report.repository.ReportRepository;
 import com.principes.rightchain.wallet.component.BlockChainApi;
+
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
-@Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -30,6 +30,7 @@ public class ChainService {
         chainRepository.save(
                 Chain.builder()
                         .address(address)
+                        .walletName(walletName)
                         .progressStatus(ProgressStatus.REPORT_SUBMITTED)
                         .report(report)
                         .build());
@@ -46,6 +47,7 @@ public class ChainService {
         chainRepository.save(
                 Chain.builder()
                         .address(address)
+                        .walletName(walletName)
                         .progressStatus(currentProgressStatus)
                         .report(report)
                         .build());
@@ -64,12 +66,13 @@ public class ChainService {
 
         ProgressStatus updatedProgressStatus = ProgressStatus.values()[currentProgressStatus.ordinal() + 1];
 
-        String enumDec = ProgressStatus.getProgressStatusDescription(updatedProgressStatus);
+        String walletName = ProgressStatus.getProgressStatusDescription(updatedProgressStatus);
 
-        String address = blockChainApi.createWallet(enumDec);
+        String address = blockChainApi.createWallet(walletName);
         chainRepository.save(
                 Chain.builder()
                         .address(address)
+                        .walletName(walletName)
                         .progressStatus(updatedProgressStatus)
                         .report(report)
                         .build());

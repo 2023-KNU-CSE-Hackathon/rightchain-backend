@@ -88,4 +88,14 @@ public class AuthController {
         emailService.validCode(email, code);
         return ApiUtil.success("인증되었습니다!");
     }
+
+    @GetMapping("/valid-email")
+    public ApiSuccessResult<String> isValidEmail(
+            @RequestParam("email") String email
+    ) {
+        if (authService.isAccountByEmail(email)) {
+            throw new IllegalStateException("중복된 이메일 입니다.");
+        }
+        return ApiUtil.success("사용 가능한 이메일 입니다.");
+    }
 }

@@ -20,7 +20,9 @@ import com.principes.rightchain.utils.api.ApiUtil;
 import com.principes.rightchain.utils.api.ApiUtil.ApiSuccessResult;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/oauth/kakao")
 @RequiredArgsConstructor
@@ -35,8 +37,9 @@ public class KakaoController {
             HttpServletResponse res) throws RuntimeException {
 
         String email = kakaoService.getKakaoEmail(authCode);
-
-        if (accountService.isAccountByEmail(email)) {
+        log.info(email);
+        
+        if (!accountService.isAccountByEmail(email)) {
             res.setStatus(401);
             return ApiUtil.success(email);
         }
