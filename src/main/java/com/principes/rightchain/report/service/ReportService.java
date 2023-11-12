@@ -16,7 +16,6 @@ import com.principes.rightchain.report.dto.request.ReportCreateRequest;
 import com.principes.rightchain.report.dto.response.ReportReadResponse;
 import com.principes.rightchain.report.entity.Report;
 import com.principes.rightchain.report.repository.ReportRepository;
-import com.principes.rightchain.utils.wallet.WalletUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +26,6 @@ public class ReportService {
     private final ReportRepository reportRepository;
     private final ChainService chainService;
     private final AgreeRepository agreeRepository;
-    private final WalletUtil walletUtil;
 
     @Transactional
     public String writeReport(
@@ -35,7 +33,7 @@ public class ReportService {
             ReportCreateRequest reportCreateRequest) {
         Report report = reportRepository.save(reportCreateRequest.toEntity(account));
 
-        chainService.createChain(report, walletUtil.getWalletName(getCaseNumFromId(report.getId())));
+        chainService.createChain(report);
         return getCaseNumFromId(report.getId());
     }
 

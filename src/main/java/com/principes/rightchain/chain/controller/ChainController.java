@@ -1,11 +1,17 @@
 package com.principes.rightchain.chain.controller;
 
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.principes.rightchain.chain.dto.request.ChainStackRequest;
 import com.principes.rightchain.chain.service.ChainService;
 import com.principes.rightchain.utils.api.ApiUtil;
 import com.principes.rightchain.utils.api.ApiUtil.ApiSuccessResult;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/chains")
@@ -23,12 +29,12 @@ public class ChainController {
         return ApiUtil.success("성공적으로 저장되었습니다.");
     }
 
-    @PostMapping("/changes/{caseNum}")
-    public ApiSuccessResult<String> changeProgressStatus(
-            @PathVariable("caseNum") String caseNum
-    ) {
-        chainService.updateProgressStatus(caseNum);
+    // @PostMapping("/changes/{caseNum}")
+    // public ApiSuccessResult<String> changeProgressStatus(
+    //         @PathVariable("caseNum") String caseNum
+    // ) {
+    //     chainService.updateProgressStatus(caseNum);
 
-        return ApiUtil.success("성공적으로 저장되었습니다.");
-    }
+    //     return ApiUtil.success("성공적으로 저장되었습니다.");
+    // }
 }

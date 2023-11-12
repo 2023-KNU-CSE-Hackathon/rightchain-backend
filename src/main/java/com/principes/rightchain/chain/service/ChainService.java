@@ -23,14 +23,16 @@ public class ChainService {
     private final ReportRepository reportRepository;
     private final BlockChainApi blockChainApi;
 
+    private final String ENTRY_POINT = "단계 종결";
+
     @Transactional
-    public void createChain(Report report, String walletName) {
-        String address = blockChainApi.createWallet(walletName);
+    public void createChain(Report report) {
+        String address = blockChainApi.createWallet("[1] 신고 접수");
 
         chainRepository.save(
                 Chain.builder()
                         .address(address)
-                        .walletName(walletName)
+                        .walletName("[1] 신고 접수")
                         .progressStatus(ProgressStatus.REPORT_SUBMITTED)
                         .report(report)
                         .build());
@@ -39,27 +41,26 @@ public class ChainService {
     @Transactional
     public void stackChain(String caseNum, String walletName) {
         Report report = this.findReportByCaseNum(caseNum);
-
-//        ProgressStatus currentProgressStatus = chainRepository.findProgressStatusByCaseId(report.getId());
         ProgressStatus currentProgressStatus = getCurrentProgress(report);
+        
+        if (walletName.equals(ENTRY_POINT)) {
+            updateProgressStatus(report, currentProgressStatus);
+        } else {
+            String address = blockChainApi.createWallet(walletName);
 
-        String address = blockChainApi.createWallet(walletName);
-        chainRepository.save(
-                Chain.builder()
-                        .address(address)
-                        .walletName(walletName)
-                        .progressStatus(currentProgressStatus)
-                        .report(report)
-                        .build());
+            chainRepository.save(
+                    Chain.builder()
+                            .address(address)
+                            .walletName(walletName)
+                            .progressStatus(currentProgressStatus)
+                            .report(report)
+                            .build());
+        }
+
     }
 
     @Transactional
-    public void updateProgressStatus(String caseNum) {
-        Report report = this.findReportByCaseNum(caseNum);
-
-//        ProgressStatus currentProgressStatus = chainRepository.findProgressStatusByCaseId(report.getId());
-        ProgressStatus currentProgressStatus = getCurrentProgress(report);
-
+    public void updateProgressStatus(Report report, ProgressStatus currentProgressStatus) {
         if (currentProgressStatus.ordinal() >= ProgressStatus.values().length) {
             throw new RuntimeException("마지막 PrgressStatus에서 업데이트를 시도했습니다.");
         }

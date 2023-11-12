@@ -2,6 +2,7 @@ package com.principes.rightchain.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -39,7 +40,8 @@ public class SecurityConfig {
 
         httpSecurity
                 .authorizeRequests()
-                    .antMatchers("/api/v1/reports/**").hasAnyRole("USER", "TEACHER", "COMMITTEE")
+                    .antMatchers(HttpMethod.GET, "/api/v1/reports/**").permitAll()
+                    .antMatchers(HttpMethod.POST, "/api/v1/reports/**").hasAnyRole("USER", "TEACHER", "COMMITTEE")
                     .antMatchers("/api/v1/chains/**").hasAnyRole("USER", "TEACHER", "COMMITTEE")
                     .antMatchers("/api/v1/agrees/**").hasAnyRole("USER", "TEACHER", "COMMITTEE")
                     .antMatchers("/api/v1/wallets/**").hasAnyRole("USER", "TEACHER", "COMMITTEE")
