@@ -1,5 +1,6 @@
 package com.principes.rightchain.report.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
@@ -37,6 +38,25 @@ public class ReportController {
         String caseNum = reportService.writeReport(account, reportCreateRequest);
 
         return ApiUtil.success(caseNum);
+    }
+
+    @GetMapping("/my-school")
+    public ApiSuccessResult<List<ReportReadResponse>> readReportMySchool(
+            Authentication authentication
+    ) {
+        PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
+        Account account = userDetails.getAccount();
+
+        List<ReportReadResponse> reportReadResponse = reportService.readAllReport();
+        List<ReportReadResponse> readResponses = new ArrayList<>();
+
+        for (ReportReadResponse report : reportReadResponse) {
+            if (report.getSchoolName().equals(account.getSchoolName())) {
+                readResponses.add(report);
+            }
+        }
+
+        return ApiUtil.success(readResponses);
     }
 
     @GetMapping("/{caseNum}")

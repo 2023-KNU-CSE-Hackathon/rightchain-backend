@@ -43,9 +43,10 @@ public class KakaoController {
             res.setStatus(401);
             return ApiUtil.success(email);
         }
-
+        log.info("111============================111");
         LoginResponseDto loginResponseDto = oAuthService.oLogin(email);
 
+        log.info("222============================222");
         TokenDto tokenDto = loginResponseDto.getTokenDto();
         String authorization = tokenDto.getGrantType() + " " + tokenDto.getAccessToken();
 
